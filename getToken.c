@@ -10,10 +10,7 @@ all identifiers (and inside this functionality keywords), then integer constants
 */
 
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <ctype.h>
+
 #include "scanner.h"
 
 // Function defintions 
@@ -89,7 +86,7 @@ int get_token() {
     }
 
     
-    // return -1; // DOUBLE CHECK THAT THIS SHOULD BE HERE
+    return -1; // DOUBLE CHECK THAT THIS SHOULD BE HERE
 }
 
 

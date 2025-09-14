@@ -1,16 +1,21 @@
 CC = gcc
 CFlags = -Wall -g
-OBJS = scanner-driver.o getToken.o
+OBJS = driver.o parse.o getToken.o
 
 
-scanner: ${OBJS}
-	${CC} ${CFlags} -o scanner ${OBJS}
 
-scanner-driver.o: scanner-driver.c scanner.h
-	${CC} ${CFlags} -c scanner-driver.c
+
+compile: ${OBJS}
+	${CC} ${CFlags} -o compile ${OBJS}
+
+driver.o: driver.c scanner.h
+	${CC} ${CFlags} -c driver.c
+
+parse.o: parse.c scanner.h
+	${CC} ${CFlags} -c parse.c
 
 getToken.o: getToken.c scanner.h
 	${CC} ${CFlags} -c getToken.c
 
 clean:
-	rm -f *.o scanner
+	rm -f *.o compile
