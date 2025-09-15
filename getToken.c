@@ -30,7 +30,7 @@ char buffer[4096]; // Buffer that each character will be added to
 int i = 0; // Pointer to location in buffer that each getchar should be added to, if added
 int loopCondition = 1;
 int c; // Integer to store characters
-int line_number = 0;
+int line_number = 1;
 
 int get_token() {
     /*
