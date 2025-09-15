@@ -1,2 +1,4 @@
-test
-_test
+int f() {
+}
+int g() {
+}

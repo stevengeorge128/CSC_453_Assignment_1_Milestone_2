@@ -66,6 +66,7 @@ void parse_type(){
 }
 
 void parse_opt_formals(){
+    return;
     // Would have an if here if anything in the first set
     if (curr_token == RPAREN){
         // Looking at the follow set right now to make this decision
@@ -78,6 +79,7 @@ void parse_opt_formals(){
 }
 
 void parse_opt_var_decls(){
+    return;
     // Would have an if here if anything in the first set
     if (curr_token == ID || curr_token == RBRACE){
         // Looking at the follow set right now to make this decision
@@ -89,6 +91,7 @@ void parse_opt_var_decls(){
 
 }
 void parse_opt_expr_list(){
+    return;
     if (curr_token == RPAREN){
         return;
     } else{
@@ -127,14 +130,16 @@ void parse_opt_stmt_list(){
         parse_stmt();
         parse_opt_stmt_list();
         
-    } else if (curr_token == RBRACE) {
-        // Using follows set here
-        return;
+    } 
+    return; 
+    // else if (curr_token == RBRACE) {
+    //     // Using follows set here
+    //     return;
         
-    } else{
-        fprintf(stderr, "ERROR LINE %d: expected token %s | %s, but found %s\n", line_number, token_name[ID],token_name[RBRACE], token_name[curr_token]);
-        exit(1);
-    }
+    // } else{
+    //     fprintf(stderr, "ERROR LINE %d: expected token %s | %s, but found %s\n", line_number, token_name[ID],token_name[RBRACE], token_name[curr_token]);
+    //     exit(1);
+    // }
 }
 
 

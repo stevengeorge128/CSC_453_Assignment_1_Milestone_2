@@ -1,5 +1,3 @@
-int
-if
-else
-while
-return
+int f() {
+    return 0;
+}

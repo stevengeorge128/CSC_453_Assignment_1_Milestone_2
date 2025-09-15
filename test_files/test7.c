@@ -1,1 +1,4 @@
-Aaaa
+int f() {
+    while (x) {
+    }
+}
