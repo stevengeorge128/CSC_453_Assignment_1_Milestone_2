@@ -1,3 +1,5 @@
-int f() {
-    g(h());
+int main() {
+    foo();
+    bar();
+    baz();
 }

@@ -1,4 +1,1 @@
-int f() {
-    if (1) {
-    }
-}
+/* nothing here */
