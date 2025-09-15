@@ -2,6 +2,7 @@
 #include "scanner.h"
 extern int get_token();
 extern char* lexeme;
+extern int line_number;
 int curr_token; 
 
 char* token_name[] = {
@@ -38,7 +39,7 @@ char* token_name[] = {
 
 // void print_token(Token tok, char* lexeme) {
 //   if (tok < UNDEF || tok > opNOT) {
-//     printf("TOKEN VALUE OUT OF BOUNDS: %d\n", tok);
+//     printf("TOKEN VALUE OUT OF BOUNDS: LINE %03d\n", tok);
 //   }
 //   else {
 //     printf("%s : %s\n", token_name[tok], lexeme);
@@ -49,7 +50,7 @@ void match(int expected){
     if (curr_token == expected){
         curr_token = get_token();
     } else{
-        fprintf(stderr, "ERROR\n");
+        fprintf(stderr, "ERROR LINE %03d: expected token %s, but found %s\n", line_number, token_name[expected], token_name[curr_token]);
     }
 }
 
@@ -59,7 +60,7 @@ void parse_type(){
         match(kwINT);
         
     } else{
-        fprintf(stderr, "ERROR\n");
+        fprintf(stderr, "ERROR LINE %03d: expected token %s, but found %s\n", line_number, token_name[kwINT], token_name[curr_token]);
         exit(1);
     }
 }
@@ -70,7 +71,7 @@ void parse_opt_formals(){
         // Looking at the follow set right now to make this decision
         return;
     }else{
-        fprintf(stderr, "ERROR\n");
+        fprintf(stderr, "ERROR LINE %03d: expected token %s, but found %s\n", line_number, token_name[RPAREN], token_name[curr_token]);
         exit(1);
     }
 
@@ -82,7 +83,7 @@ void parse_opt_var_decls(){
         // Looking at the follow set right now to make this decision
         return;
     }else{
-        fprintf(stderr, "ERROR\n");
+        fprintf(stderr, "ERROR LINE %03d: expected token %s | %s, but found %s\n", line_number, token_name[ID],token_name[RBRACE], token_name[curr_token]);
         exit(1);
     }
 
@@ -91,7 +92,7 @@ void parse_opt_expr_list(){
     if (curr_token == RPAREN){
         return;
     } else{
-        fprintf(stderr, "ERROR\n");
+        fprintf(stderr, "ERROR LINE %03d: expected token %s, but found %s\n", line_number, token_name[RPAREN], token_name[curr_token]);
         exit(1);    
     }
 }
@@ -102,7 +103,7 @@ void parse_fn_call(){
         parse_opt_expr_list();
         match(RPAREN);
     } else{
-        fprintf(stderr, "ERROR\n");
+        fprintf(stderr, "ERROR LINE %03d: expected token %s, but found %s\n", line_number, token_name[ID], token_name[curr_token]);
         exit(1);
     }
 }
@@ -114,7 +115,7 @@ void parse_stmt(){
         parse_fn_call();
         match(SEMI);
     } else{
-        fprintf(stderr, "ERROR\n");
+        fprintf(stderr, "ERROR LINE %03d: expected token %s, but found %s\n", line_number, token_name[ID], token_name[curr_token]);
         exit(1);
     }
 }
@@ -131,7 +132,7 @@ void parse_opt_stmt_list(){
         return;
         
     } else{
-        fprintf(stderr, "ERROR\n");
+        fprintf(stderr, "ERROR LINE %03d: expected token %s | %s, but found %s\n", line_number, token_name[ID],token_name[RBRACE], token_name[curr_token]);
         exit(1);
     }
 }
@@ -157,10 +158,11 @@ void parse_helper(){
         parse_helper();
         
     } else{
-        fprintf(stderr, "ERROR\n");
+        fprintf(stderr, "ERROR LINE %03d\n",line_number);
     }
 
 }
+
 
 int parse(){
     // printf("parse called\n");
