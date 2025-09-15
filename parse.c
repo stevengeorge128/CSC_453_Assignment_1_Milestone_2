@@ -163,7 +163,7 @@ void parse_helper(){
 }
 
 int parse(){
-    printf("parse called\n");
+    // printf("parse called\n");
 
     curr_token = get_token();
     parse_helper();

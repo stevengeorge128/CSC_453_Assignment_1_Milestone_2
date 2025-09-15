@@ -317,7 +317,7 @@ int get_token() {
     
     i = 0;  // Reset the buffer pointer at each start of get_token
     if (lexeme){ 
-        printf("Value of lexeme is %s\n", lexeme);
+        // printf("Value of lexeme is %s\n", lexeme);
         // Free lexeme always before calling strdup on it 
         free(lexeme);
         lexeme = NULL;
