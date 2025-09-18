@@ -1,3 +1,11 @@
+/*
+Author: Steven George
+file: parse.c
+Version: Assignment 1 Milestone 2
+Date: Wednesday September 17 2025
+Description: Implements a G0 parsers for CSC 453. Recursive descent parsing. 
+Did not need to use follow sets but does 
+*/
 
 #include "scanner.h"
 extern int get_token();
@@ -36,16 +44,11 @@ char* token_name[] = {
   "opNOT",
 };
 
-
-// void print_token(Token tok, char* lexeme) {
-//   if (tok < UNDEF || tok > opNOT) {
-//     printf("TOKEN VALUE OUT OF BOUNDS: LINE %d\n", tok);
-//   }
-//   else {
-//     printf("%s : %s\n", token_name[tok], lexeme);
-//   }
-// }
-
+/*
+Take an expected token and see if the next token returned by get_token() returns the expected 
+token, erroring if not. This is how the parser "consumes" a token and a new one is loaded 
+into curr_token
+*/
 void match(int expected){
     if (curr_token == expected){
         curr_token = get_token();
@@ -55,6 +58,9 @@ void match(int expected){
     }
 }
 
+/*
+Parses for types, which right now is only kwInt
+*/
 void parse_type(){
     // Don't call match here in case I need to add more later down the line
     if (curr_token == kwINT){
@@ -66,6 +72,10 @@ void parse_type(){
     }
 }
 
+/*
+Parses optional formals which is the empty set right. Checks the follows set and errors 
+if does not find what is expected
+*/
 void parse_opt_formals(){
     // return;
     // Would have an if here if anything in the first set
@@ -79,6 +89,10 @@ void parse_opt_formals(){
 
 }
 
+/*
+Parses optional variable declarations which is the empty set right now. Check follows 
+set and errors if it does not find the expected result.
+*/
 void parse_opt_var_decls(){
     // return;
     // Would have an if here if anything in the first set
@@ -91,6 +105,11 @@ void parse_opt_var_decls(){
     }
 
 }
+
+/*
+Parses the optional expression list. Empty set right now so checks the follows set and 
+errors if it does not find the expected token.
+*/
 void parse_opt_expr_list(){
     // return;
     if (curr_token == RPAREN){
@@ -100,6 +119,11 @@ void parse_opt_expr_list(){
         exit(1);    
     }
 }
+
+/*
+Parses a function call. Expects an ID, LPAREN, then matches option expression list, then
+expects a parenthesis. Errors if not perfect matching 
+*/
 void parse_fn_call(){
     if (curr_token == ID){
         match(ID);
@@ -113,7 +137,9 @@ void parse_fn_call(){
 }
 
 
-
+/*
+Parses statements. Expected a function call then a semicolon. Start of program right now
+*/
 void parse_stmt(){
     if (curr_token == ID){
         parse_fn_call();
@@ -124,6 +150,11 @@ void parse_stmt(){
     }
 }
 
+/*
+Parses options statment list. Right now that can have a stmt qnd then another possible 
+statement list. If RBRACE that is the follows set and we return. Error if none of the above
+found. 
+*/
 void parse_opt_stmt_list(){
 
 
@@ -144,6 +175,9 @@ void parse_opt_stmt_list(){
 }
 
 
+/*
+Parses a function defintion. See the spec.
+*/
 void parse_func_defn(){
     parse_type();
     match(ID);
@@ -156,6 +190,11 @@ void parse_func_defn(){
     match(RBRACE);
 }
 
+
+/*
+Start of recursion. 
+Expects EOF or function definition and recursive call to parse helper again
+*/
 void parse_helper(){
     if (curr_token == EOF){
         return;
@@ -171,15 +210,12 @@ void parse_helper(){
 }
 
 
+/*
+Parse function. Call recursive helper and gets first token. Matches EOF after all recursion completed
+*/
 int parse(){
-    // printf("parse called\n");
-
     curr_token = get_token();
     parse_helper();
     match(EOF);
-
-    
-
-
     return 0;
 }
